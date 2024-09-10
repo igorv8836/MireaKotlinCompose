@@ -1,4 +1,4 @@
-package com.example.mireakotlincompose.ui.theme
+package com.example.mireakotlincompose.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
