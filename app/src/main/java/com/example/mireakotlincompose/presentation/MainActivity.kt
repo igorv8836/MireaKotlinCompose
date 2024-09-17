@@ -45,7 +45,8 @@ class MainActivity : ComponentActivity() {
 fun BottomNavigationBar(navController: NavHostController) {
     val screens = listOf(
         Screen.CameraScreen,
-        Screen.ListScreen
+        Screen.ListScreen,
+        Screen.FactsScreen
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
