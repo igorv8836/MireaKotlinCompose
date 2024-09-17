@@ -24,7 +24,7 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
 fun NavGraph(navHostController: NavHostController, innerPadding: PaddingValues) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.ListScreen.route,
+        startDestination = Screen.CameraScreen.route,
         modifier = Modifier.padding(innerPadding)
     ){
         composable(Screen.CameraScreen.route){

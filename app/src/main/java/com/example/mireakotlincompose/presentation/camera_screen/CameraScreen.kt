@@ -9,6 +9,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +29,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -37,11 +40,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.mireakotlincompose.presentation.navigation.Screen
 import com.example.mireakotlincompose.presentation.viewmodel.SharedViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
+import kotlinx.coroutines.delay
 import java.io.File
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -53,6 +56,8 @@ fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = 
     var previewView by remember { mutableStateOf<PreviewView?>(null) }
 
     val permissionState = rememberPermissionState(Manifest.permission.CAMERA)
+
+    var showFlash by remember { mutableStateOf(false) }
 
     if (permissionState.status != PermissionStatus.Granted) {
         SideEffect { permissionState.launchPermissionRequest() }
@@ -67,6 +72,27 @@ fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = 
                 modifier = Modifier.fillMaxSize()
             )
 
+            var isPressed by remember { mutableStateOf(false) }
+            val scale by animateFloatAsState(if (isPressed) 0.8f else 1f, label = "")
+
+            LaunchedEffect(isPressed) {
+                delay(100)
+                isPressed = false
+            }
+
+            if (showFlash) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.White)
+                        .alpha(0.01f)
+                )
+                LaunchedEffect(Unit) {
+                    delay(100)
+                    showFlash = false
+                }
+            }
+
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -75,6 +101,8 @@ fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = 
             ) {
                 IconButton(
                     onClick = {
+                        isPressed = true
+                        showFlash = true
                         val file = File(context.getExternalFilesDir(null), "${System.currentTimeMillis()}.jpg")
                         val outputOptions = ImageCapture.OutputFileOptions.Builder(file).build()
                         imageCapture?.takePicture(
@@ -84,7 +112,6 @@ fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = 
                                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                                     val savedUri = Uri.fromFile(file)
                                     viewModel.savePhoto(context, savedUri)
-                                    navController.navigate(Screen.ListScreen.route)
                                 }
 
                                 override fun onError(exception: ImageCaptureException) {
@@ -94,6 +121,7 @@ fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = 
                     },
                     modifier = Modifier
                         .size(80.dp)
+                        .scale(scale)
                         .clip(CircleShape)
                         .background(Color.White)
                 ) {
@@ -131,3 +159,4 @@ fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = 
         }
     }
 }
+
