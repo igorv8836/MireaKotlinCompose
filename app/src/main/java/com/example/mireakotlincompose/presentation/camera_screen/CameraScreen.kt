@@ -1,7 +1,6 @@
 package com.example.mireakotlincompose.presentation.camera_screen
 
 import android.Manifest
-import android.net.Uri
 import android.util.Log
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -110,8 +109,7 @@ fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = 
                             ContextCompat.getMainExecutor(context),
                             object : ImageCapture.OnImageSavedCallback {
                                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                                    val savedUri = Uri.fromFile(file)
-                                    viewModel.savePhoto(context, savedUri)
+
                                 }
 
                                 override fun onError(exception: ImageCaptureException) {

@@ -46,15 +46,14 @@ fun BottomNavigationBar(navController: NavHostController) {
     val screens = listOf(
         Screen.CameraScreen,
         Screen.ListScreen,
-        Screen.FactsScreen
+        Screen.FactsScreen,
+        Screen.PhotoScreen
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomAppBar(
-
-    ) {
+    BottomAppBar {
         screens.forEach { screen ->
             NavigationBarItem(
                 icon = {
