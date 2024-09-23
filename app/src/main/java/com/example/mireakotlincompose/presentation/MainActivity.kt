@@ -19,7 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.mireakotlincompose.presentation.navigation.NavGraph
 import com.example.mireakotlincompose.presentation.navigation.Screen
-import com.example.mireakotlincompose.presentation.theme.MireaKotlinComposeTheme
+import com.example.mireakotlincompose.presentation.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            MireaKotlinComposeTheme {
+            AppTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {

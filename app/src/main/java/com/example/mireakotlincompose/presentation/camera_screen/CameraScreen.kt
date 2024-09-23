@@ -37,18 +37,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.mireakotlincompose.presentation.viewmodel.SharedViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.delay
+import org.koin.androidx.compose.koinViewModel
 import java.io.File
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = viewModel()) {
+fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = koinViewModel()) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     var imageCapture: ImageCapture? by remember { mutableStateOf(null) }
@@ -102,7 +102,10 @@ fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = 
                     onClick = {
                         isPressed = true
                         showFlash = true
-                        val file = File(context.getExternalFilesDir(null), "${System.currentTimeMillis()}.jpg")
+                        val file = File(
+                            context.getExternalFilesDir(null),
+                            "${System.currentTimeMillis()}.jpg"
+                        )
                         val outputOptions = ImageCapture.OutputFileOptions.Builder(file).build()
                         imageCapture?.takePicture(
                             outputOptions,
@@ -113,7 +116,11 @@ fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = 
                                 }
 
                                 override fun onError(exception: ImageCaptureException) {
-                                    Log.e("CameraScreen", "Error saving photo: ${exception.message}", exception)
+                                    Log.e(
+                                        "CameraScreen",
+                                        "Error saving photo: ${exception.message}",
+                                        exception
+                                    )
                                 }
                             })
                     },

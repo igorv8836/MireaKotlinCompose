@@ -36,13 +36,14 @@ fun PhotoScreen() {
             value = inputUrl,
             onValueChange = { inputUrl = it },
             label = { Text("Введите URL: ") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
         )
+        Text("Васильев Игорь, ИКБО-06-22")
         Button(
             onClick = {
                 viewModel.savePhoto(inputUrl)
             },
-            modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
+            modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
         ) {
             Text("Загрузить")
         }
