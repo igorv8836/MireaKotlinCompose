@@ -7,9 +7,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,6 +40,7 @@ import java.util.Locale
 
 data class PhotoWithMetadata(val uri: Uri, val date: Long)
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(navHostController: NavHostController) {
     val context = LocalContext.current
@@ -52,18 +58,23 @@ fun ListScreen(navHostController: NavHostController) {
         }
     }
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp),
-        contentPadding = PaddingValues(8.dp),
-        content = {
-            items(photos.size) { index ->
-                PhotoItem(photoUri = photos[index])
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Список") })
+        }) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier
+                .fillMaxSize().padding(it)
+                .padding(8.dp),
+            contentPadding = PaddingValues(8.dp),
+            content = {
+                items(photos.size) { index ->
+                    PhotoItem(photoUri = photos[index])
+                }
             }
-        }
-    )
+        )
+    }
 }
 
 @Composable

@@ -9,9 +9,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,32 +27,40 @@ import androidx.navigation.NavHostController
 import com.example.mireakotlincompose.presentation.viewmodel.CatFactViewModel
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FactsScreen(navHostController: NavHostController) {
     val viewModel: CatFactViewModel = koinViewModel()
     val facts by viewModel.facts.collectAsStateWithLifecycle()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 8.dp, horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        LazyColumn(
-            modifier = Modifier
-                .weight(1.0f)
-                .padding(bottom = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(facts) { fact ->
-                FactItem(text = fact.fact)
-            }
-        }
 
-        Button(
-            onClick = { viewModel.getNewFact() }
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Список") })
+        }) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize().padding(it)
+                .padding(vertical = 8.dp, horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Получить новый факт")
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .padding(bottom = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(facts) { fact ->
+                    FactItem(text = fact.fact)
+                }
+            }
+
+            Button(
+                onClick = { viewModel.getNewFact() }
+            ) {
+                Text(text = "Получить новый факт")
+            }
         }
     }
 }
