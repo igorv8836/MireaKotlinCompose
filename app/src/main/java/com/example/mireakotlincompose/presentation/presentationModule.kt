@@ -9,5 +9,5 @@ import org.koin.dsl.module
 fun presentationModule() = module {
     includes(dataModule())
     viewModel { CatFactViewModel(get()) }
-    viewModel { SharedViewModel(get()) }
+    viewModel { SharedViewModel(get(), get()) }
 }

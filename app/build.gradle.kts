@@ -61,7 +61,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
-    implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -91,4 +90,6 @@ dependencies {
     implementation(libs.koin.core)
 //    implementation(libs.koin.androidx.viewmodel)
     implementation(libs.koin.androidx.compose)
+
+    implementation(libs.androidx.work.runtime.ktx)
 }

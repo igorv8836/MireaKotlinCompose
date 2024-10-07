@@ -14,7 +14,7 @@ class NotificationWorker(
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        sendNotification("Напоминание", "Это уведомление, отправляемое каждые 15 минут.")
+        sendNotification("Напоминание", "Это уведомление отправляется через WorkManager")
         return Result.success()
     }
 

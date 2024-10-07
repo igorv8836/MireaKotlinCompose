@@ -5,11 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,8 +16,8 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -45,24 +42,30 @@ fun PhotoScreen() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+    RequestNotificationPermission { }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Экран 1", modifier = Modifier.padding(vertical = 8.dp))
-                    Text("Экран 2", modifier = Modifier.padding(vertical = 8.dp))
-                    Text("Экран 3", modifier = Modifier.padding(vertical = 8.dp))
-                    Text("Экран 4", modifier = Modifier.padding(vertical = 8.dp))
-                    Text("Экран 5", modifier = Modifier.padding(vertical = 8.dp))
+                    Text("Шаблон 1", modifier = Modifier.padding(vertical = 8.dp))
+                    Text("Шаблон 2", modifier = Modifier.padding(vertical = 8.dp))
+                    Text("Шаблон 3", modifier = Modifier.padding(vertical = 8.dp))
+                    Text("Шаблон 4", modifier = Modifier.padding(vertical = 8.dp))
+                    Text("Шаблон 5", modifier = Modifier.padding(vertical = 8.dp))
+                    TextButton(onClick = {
+                        viewModel.sendNotification()
+                    }) { Text("Отправить уведомление") }
                 }
             }
         },
-    ){
+    ) {
         Scaffold(
             topBar = {
                 TopAppBar(title = { Text("Фото") },
-                    colors = TopAppBarDefaults.topAppBarColors().copy(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                    colors = TopAppBarDefaults.topAppBarColors()
+                        .copy(containerColor = MaterialTheme.colorScheme.primaryContainer),
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch {
@@ -74,7 +77,9 @@ fun PhotoScreen() {
                     })
             }) {
             Column(
-                modifier = Modifier.padding(it).padding(16.dp)
+                modifier = Modifier
+                    .padding(it)
+                    .padding(16.dp)
             ) {
                 AsyncImage(
                     model = inputUrl,

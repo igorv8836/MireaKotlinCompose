@@ -36,7 +36,7 @@ fun FactsScreen(navHostController: NavHostController) {
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Список") })
+            TopAppBar(title = { Text("Список фактов") })
         }) {
 
         Column(

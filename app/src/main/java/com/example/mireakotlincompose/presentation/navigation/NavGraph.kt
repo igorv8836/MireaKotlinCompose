@@ -31,7 +31,7 @@ fun NavGraph(navHostController: NavHostController, innerPadding: PaddingValues) 
     NavHost(
         navController = navHostController,
         startDestination = Screen.FactsScreen.route,
-        modifier = Modifier.padding(innerPadding)
+        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
     ){
         composable(Screen.CameraScreen.route){
             CameraScreen(navController = navHostController)
