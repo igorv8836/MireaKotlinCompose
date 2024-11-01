@@ -37,18 +37,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.mireakotlincompose.presentation.viewmodel.SharedViewModel
+import com.example.mireakotlincompose.App
+import com.example.mireakotlincompose.presentation.viewmodel.CatFactViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.delay
-import org.koin.androidx.compose.koinViewModel
 import java.io.File
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CameraScreen(navController: NavHostController, viewModel: SharedViewModel = koinViewModel()) {
+fun CameraScreen(
+    navController: NavHostController,
+    viewModel: CatFactViewModel = viewModel(factory = (LocalContext.current.applicationContext as App).appComponent.viewModelFactory())
+) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     var imageCapture: ImageCapture? by remember { mutableStateOf(null) }

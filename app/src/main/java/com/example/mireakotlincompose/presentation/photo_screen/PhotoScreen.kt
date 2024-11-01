@@ -27,16 +27,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.mireakotlincompose.App
 import com.example.mireakotlincompose.presentation.viewmodel.SharedViewModel
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PhotoScreen() {
-    val viewModel: SharedViewModel = koinViewModel()
+fun PhotoScreen(
+    viewModel: SharedViewModel = viewModel(factory = (LocalContext.current.applicationContext as App).appComponent.viewModelFactory())
+) {
     var inputUrl by remember { mutableStateOf("") }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)

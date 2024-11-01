@@ -91,5 +91,8 @@ dependencies {
 //    implementation(libs.koin.androidx.viewmodel)
     implementation(libs.koin.androidx.compose)
 
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
+
     implementation(libs.androidx.work.runtime.ktx)
 }
